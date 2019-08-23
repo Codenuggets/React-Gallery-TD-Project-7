@@ -16,7 +16,7 @@ import Photo from './components/Photo'
 class App extends React.Component {
   state = {
     photos: null,
-    loading: true,
+    loading: true
   }
 
   getPhotos = (tag) => {
@@ -30,8 +30,10 @@ class App extends React.Component {
                             secret={photo.secret}
                             key={photo.id} />
         }),
-        loading: false
+          loading: false
       });
+    }).catch(function(error){
+      console.log(error);
     });
   }
 
@@ -41,13 +43,14 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="container">
-          <SearchField />
+          <SearchField getPhotos={this.getPhotos} />
           <Nav />
           <Switch>
             <Route exact path="/" render={() => <Redirect to ="/computers" /> } />
-            <Route path="/computers" render={() =>  <PhotoContainer getPhotos={this.getPhotos} tag={"computers"} photos={this.state.photos} loading={this.state.loading} /> }  />
-            <Route path="/sunsets" render={() => <PhotoContainer getPhotos={this.getPhotos} tag={"sunsets"} photos={this.state.photos} loading={this.state.loading}/> } />
-            <Route path="/comics" render={() => <PhotoContainer getPhotos={this.getPhotos} tag={"comics"} photos={this.state.photos} loading={this.state.loading}/> } />
+            <Route path="/computers" render={() =>  <PhotoContainer getPhotos={this.getPhotos} tag={"computers"} photos={this.state.photos} /> }  />
+            <Route path="/sunsets" render={() => <PhotoContainer getPhotos={this.getPhotos} tag={"sunsets"} photos={this.state.photos} /> } />
+            <Route path="/comics" render={() => <PhotoContainer getPhotos={this.getPhotos} tag={"comics"} photos={this.state.photos} /> } />
+            <Route path="/search/:id" render={({match}) => this.state.loading ? <div>loading....</div> : <PhotoContainer getPhotos={this.getPhotos} tag={match.params.id}  photos={this.state.photos} /> } />
           </Switch>
         </div>
       </BrowserRouter>
