@@ -13,10 +13,17 @@ class SearchField extends React.Component {
     });
   }
 
+  capitalizeTitle = (search) => {
+    search = (search.charAt(0).toUpperCase() + search.slice(1));
+    return search;
+  }
+
   handleSubmit = (e) => {
     const history = createBrowserHistory();
     e.preventDefault();
     this.props.getPhotos(this.state.searchText);
+    e.currentTarget.reset();
+    document.title = this.capitalizeTitle(this.state.searchText);
     history.push(`/search/${this.state.searchText}`);
   }
 

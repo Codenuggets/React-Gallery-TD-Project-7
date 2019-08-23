@@ -20,19 +20,6 @@ class PhotoContainer extends React.Component {
         return null;
       }
 
-      mapPhotos = () => {
-        let mappedPhotos = this.props.photos.map(photo => {
-                 return <Photo  farm={photo.farm}
-                          server={photo.server}
-                          id={photo.id}
-                          secret={photo.secret}
-                          key={photo.id} />
-      });
-      this.setState({
-        photos: mappedPhotos
-      });
-    }
-
       capitalizeTitle = (tag) => {
         let title = tag.replace(/\//g, '');
         if(title.includes('search')) {
@@ -51,24 +38,40 @@ class PhotoContainer extends React.Component {
       componentDidUpdate(prevProps) {
         if(this.props.tag !== prevProps.tag){
           const history = createBrowserHistory();
+          console.log(this.props.tag);
           this.props.getPhotos(this.props.tag);
+          console.log(history.location.pathname);
           document.title = this.capitalizeTitle(history.location.pathname);
         }
       }
 
   render() {
-    //this.mapPhotos(this.props.photos);
-
+    const photos = this.props.photos;
+    console.log(photos);
 
     return (
       <div className="photo-container">
-        <h2>Results</h2>
+        {this.props.photos === null || this.props.photos.length === 0 ? (
+          <div>No Results Found</div>
+        ) : (
+          <h2>Results</h2>
+        )}
+
         <ul>
         {this.props.photos}
         </ul>
       </div>
     );
 }
+// <div className="photo-container">
+//   <h2>Results</h2>
+//   {this.props.photos.length === 0 &&
+//      <div>No Results Found</div>
+//    }
+//   <ul>
+//   {this.props.loading ? <div>Loading....</div> : this.props.photos}
+//   </ul>
+// </div>
 
 
 
