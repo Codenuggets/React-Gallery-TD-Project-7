@@ -3,41 +3,39 @@ import Photo from './Photo';
 import apiKey from '../config.js';
 
 class PhotoContainer extends React.Component {
-  state = {
-      photos: null,
-      tag: this.props.tag,
-      loading: true
-    };
+    state = {
+        tag: this.props.tag,
+        loading: this.props.loading
+      };
 
-  async componentDidMount() {
-    const apiURL= `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.state.tag}&per_page=24&format=json&nojsoncallback=1`;
-    const flickrResponse = await fetch(apiURL);
+      static getDerivedStateFromProps(props, state) {
+        if(props.tag !== state.tag || props.loading !== state.loading) {
+          return {
+            tag: props.tag,
+            loading: props.loading
+          }
+        }
+        return null;
+      }
 
-    const flickrJSON = await flickrResponse.json();
-    console.log(flickrJSON.photos.photo);
-    this.setState({
-      photos: flickrJSON.photos.photo.map(photo => {
-              return <Photo  farm={photo.farm}
-                        server={photo.server}
-                        id={photo.id}
-                        secret={photo.secret}
-                        key={photo.id} />
-      }),
-      loading: false
-    });
-  }
+      capitalizeTitle = (tag) => {
+        return (tag.charAt(0).toUpperCase() + tag.slice(1));
+      }
 
   render() {
+    this.props.getPhotos(this.state.tag);
+    document.title = this.capitalizeTitle(this.state.tag);
+
     return (
       <div className="photo-container">
         <h2>Results</h2>
         <ul>
-        {this.state.loading ? <div>loading...</div> : this.state.photos}
+        {this.state.loading ? <div>Loading....</div> : this.props.photos}
         </ul>
       </div>
     );
-
 }
+
 
 
 };
