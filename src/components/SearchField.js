@@ -13,15 +13,28 @@ class SearchField extends React.Component {
     });
   }
 
+  // Formats search text to update the title
   capitalizeTitle = (search) => {
     search = (search.charAt(0).toUpperCase() + search.slice(1));
     return search;
   }
 
+  // Handles the removal of active styling on the links
+  removeActive = () => {
+    const activeLink = document.querySelector('.active');
+    // Makes sure there is an active link in case a user is searching after a search was already made
+    if(activeLink) {
+      activeLink.classList.remove("active");
+    }
+  }
+
   handleSubmit = (e) => {
     const history = createBrowserHistory();
     e.preventDefault();
+    // Resets loading state in app js to allow a loading div to be rendered in PhotoContainer
+    this.props.resetLoading();
     this.props.getPhotos(this.state.searchText);
+    this.removeActive();
     e.currentTarget.reset();
     document.title = this.capitalizeTitle(this.state.searchText);
     history.push(`/search/${this.state.searchText}`);
