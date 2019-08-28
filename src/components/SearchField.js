@@ -34,9 +34,11 @@ class SearchField extends React.Component {
     // Resets loading state in app js to allow a loading div to be rendered in PhotoContainer
     this.props.resetLoading();
     this.props.getPhotos(this.state.searchText);
+    // Removes active styling on links
     this.removeActive();
     e.currentTarget.reset();
     document.title = this.capitalizeTitle(this.state.searchText);
+    // Updates url path
     history.push(`/search/${this.state.searchText}`);
   }
 

@@ -49,9 +49,6 @@ class PhotoContainer extends React.Component {
       }
 
   render() {
-    const photos = this.props.photos;
-    console.log(photos);
-
     return (
       <div className="photo-container">
         {/*Ternery expression used to either render a no results message if no images are returned from flickr or the Results div, if photos are returned*/}
