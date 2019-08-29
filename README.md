@@ -4,6 +4,9 @@ This app uses React to display a gallery comprised of photos fetched from the Fl
 ## React
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Installation and Getting Started
+After cloning this repo, move to the root of this directory `React-Gallery-TD-Project-7/` in your terminal or shell and run `npm install` to install all the project dependencies. Once that is done, you can launch the app with `npm install`. The app should be running on `localhost:3000`
+
 ## Components
 * `App.js` - This stateful component houses the main `getPhotos` method to fetch the photos and stores the main rendering of all the other components
 * `Nav.js` - This stateless component renders the navigation links
